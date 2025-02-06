@@ -15,3 +15,22 @@ static void 안에서 함수를 호출하려면 program 안에 있는 함수도 
 하위항목이 좀 많은 class는 따로 새 항목 만들기를 통해 만들어줌  
 List<Item>을 인벤토리용과 상점용 두개를 따로 만들어주는게 관리에 훨씬 용이했을 듯 함  
 MainScene if문 말고 switce case문이 더 깔끔해보임
+
+## 25.02.06
+public void TakeDamage(float Atk, float CritDmg, bool crit)      //  crit값은 확률의 판정여부를 계산하는 식의 리턴값을 집어넣음  
+{
+    float damage;  
+    if (crit == true)  // 확률이 발동하여 적의 공격력에 적의 치명타 배율을 곱함  
+    {  
+        damage = Atk * CritDmg;  
+        Console.Write("치명타! ");  
+    }  
+    else  
+        damage = Atk;  // 확률이 발동하지 않아 치명타 배율을 곱하지 않음
+    CurrentHealth -= (int)damage - Def - EquipDef;      //  현재 체력을 정수형으로 표현하고 싶어서 데미지값 소수 첫째자리 버림, 데미지를 반올림처리하는게 더 나을까 싶기도 함
+    Console.Write($"{Name}이(가) {(int)damage - Def - EquipDef}의 데미지를 받았습니다.");  
+    if (IsDead)  
+        Console.WriteLine($"{Name}이(가) 죽었습니다.");  
+    else  
+        Console.WriteLine($"남은 체력: {CurrentHealth}");  
+}  
