@@ -34,3 +34,22 @@ public void TakeDamage(float Atk, float CritDmg, bool crit)      //  crit값은 
     else  
         Console.WriteLine($"남은 체력: {CurrentHealth}");  
 }  
+
+## 25.02.10
+class 안에 class 만들면 유지보수측면에서 불편해지니까 왠만하면 그렇게 하지 말자  
+class를 만들었을때는 = new 생성자를 통해서 넣어줘야됨(객체로 만들어서 활용하기) 안하면 null Reference Exception  
+class 안에 있는 데이터는 외부 반출 불가 - public 을 붙이면 다른 class에서도 활용 가능  
+클래스는 기본이 internal  
+  
+class 왜 써야 하나요?  
+  
+객체지향(OOP)  
+객체 사용으로 코드가 간결해짐 -> 코드 파악이 쉽다(가독성 증가)  
+길어질 수 있는 코드를 나눠서 관리, 코드 관리에 좋음 -> 코드 분석 쉬움  
+목적에 맞게 기능도 포함가능 -> 함수 사용  
+정리  
+-코드 파악이 쉽다  
+-가독성 증가  
+-유지보수 쉽다  
+  
+코드를 이해하기 쉽다  
