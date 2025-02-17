@@ -82,3 +82,44 @@ battle.cs에 데미지 계산시 변수가 너무 많이들어가서 난잡하�
 배경이나 장애물이 무한이 생겨나는 루프는 진행방향 뒤쪽에 화면에 잡히지 않는 곳에 충돌 오브젝트를 두어 장애물이나 지형이 이에 충돌하면 위치를 플레이어 진행방향쪽의 먼 곳으로 옮겨서 만들어냄  
 강의를 듣기 전에는 시야 바깥으로 너무 멀리 나간 것을 삭제시키고 시야에 가까이 오는걸 다시 생성하는걸로 생각했는데 저렇게 이동시키니까 필요한 연산이 그보다 줄어들음  
 테스트를 위해 치트를 만들어두고 치트가 켜져있을때는 사망하는 코드가 작동하지 않도록 하는 방법을 배움  
+
+## 25.02.17
+NullReferenceException: Object reference not set to an instance of an object  
+TheStack.ColorChange (UnityEngine.GameObject go) (at Assets/Scripts/TheStack.cs:114)  
+TheStack.Spawn_Block () (at Assets/Scripts/TheStack.cs:75)  
+TheStack.Update () (at Assets/Scripts/TheStack.cs:51)  
+  
+라고 뜨면서 블록이 안생김  
+  
+발생 시점  
+1-11 강의 후반부 테스트시점  
+  
+원인  
+rn = null로 써서 난 간단한 오류였음...  
+
+StackOverflowException: The requested operation caused a stack overflow.  
+UIManager.get_Instance () (at Assets/Scripts/UIManager.cs:18)  
+UIManager.get_Instance () (at Assets/Scripts/UIManager.cs:18)  
+UIManager.get_Instance () (at Assets/Scripts/UIManager.cs:18)  
+UIManager.get_Instance () (at Assets/Scripts/UIManager.cs:18)  
+UIManager.get_Instance () (at Assets/Scripts/UIManager.cs:18)  
+UIManager.get_Instance () (at Assets/Scripts/UIManager.cs:18)  
+UIManager.get_Instance () (at Assets/Scripts/UIManager.cs:18)  
+
+HomeUI에서 StartButton을 클릭하면 HomeUI가 GameUI로 바뀌지 않고 그대로 게임이 시작되며 위와 같은 에러  
+
+발생시점  
+1-15강의  
+
+원인예측 - HomeUI도 사라지지 않고 GameUI도 켜지지 않는다면 UIManager쪽에 문제?  
+
+
+원인  
+public static UIManager Instance  
+{  
+    get { return Instance; }  
+}  
+  
+싱글톤 대소문자 오류...  
+get { return instance; }  
+로 바꾼 뒤 해결되었음  
