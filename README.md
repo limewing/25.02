@@ -123,3 +123,15 @@ public static UIManager Instance
 싱글톤 대소문자 오류...  
 get { return instance; }  
 로 바꾼 뒤 해결되었음  
+
+## 25.02.18
+화살 오브젝트가 생성은 되고 있으나 화면에 보이지 않음  
+
+발생시점  
+1-22 강의  
+
+원인예측  
+- 화살의 Order in Layer가 낮게 잡혀있나? - floor은 10이고 화살은 110이라 아님  
+- spritecolor가 투명한가? - 이게 원인이었음
+  
+Weapon Prefab에서 활에 있는Projectile Color 255 255 255 255로 수정 후 보임
