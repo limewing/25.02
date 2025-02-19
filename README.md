@@ -125,13 +125,57 @@ get { return instance; }
 로 바꾼 뒤 해결되었음  
 
 ## 25.02.18
-화살 오브젝트가 생성은 되고 있으나 화면에 보이지 않음  
-
+화살 오브젝트가 생성은 되고 있으나 화면에 보이지 않음   
+  
 발생시점  
 1-22 강의  
-
+  
 원인예측  
 - 화살의 Order in Layer가 낮게 잡혀있나? - floor은 10이고 화살은 110이라 아님  
-- spritecolor가 투명한가? - 이게 원인이었음
+- spritecolor가 투명한가? - 이게 원인이었음  
   
 Weapon Prefab에서 활에 있는Projectile Color 255 255 255 255로 수정 후 보임
+
+## 25.02.19
+배경 상황  
+Player 오브젝트의 하위 항목으로 RightSprite, UpSprite, DownSprite가 있는 상황  
+스프라이트들에 각각 Idle, Move 애니메이션이 존재하고 이를 IsMove bool값으로 변경해주는 상태  
+테스트를 위해 Play 실행 시 두 애니메이션 전부 실행되지 않음  
+
+원인 추측  
+AnimationHandler를 Player에 달아두고 하위 오브젝트들의 Animator를 컨트롤 할 수 있도록 추가적인 조치를 취해두지 않았음
+  
+수정사항  
+AnimationHandler.cs 수정  
+[SerializeField] private Animator rightAnimator;  
+[SerializeField] private Animator upAnimator;  
+[SerializeField] private Animator downAnimator;  
+  
+추가 및 기존의 animator를 currentAnimator로 변경하고 현재 작동해야 되는 animator를 currentAnimator에 세팅할 수 있도록 함  
+  
+BaseController.cs 수정  
+Move에서 바라보는 방향에 따라 사용할 Animator를 선택하여 AnimationHandler에 전달하도록 함  
+  
+그런데 이렇게 했는데도 애니메이션이 실행되지 않음  
+  
+2차 수정  
+  
+Player의 AnimationHandler 컴퍼넌트에 Animator가 할당되지 않아있어서 할당함  
+
+그래도 실행안됨  
+
+3차 수정  
+  
+원인 추측
+IsMove 부울값 문제인가?  
+
+디버그해봤는데 제대로 움직일때 해당 애니메이터에서 True뜸  
+  
+  
+애니메이터 확인해보는데 애니메이션 진행상황 보여주는 파란 게이지가 계속해서 초기화된다?  
+혹시 Animator의 IsMove값이 계속해서 선언되면서 계속 초기화되나?    
+  
+  
+해결 과정
+Rotate에서 계속해서 true값을 집어넣어줘서 계속 초기화되고있었음  
+방향이 바뀌었을때만 Sprite를 전환하도록 변경해줌
