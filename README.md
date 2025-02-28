@@ -151,31 +151,4 @@ AnimationHandler.cs 수정
 [SerializeField] private Animator upAnimator;  
 [SerializeField] private Animator downAnimator;  
   
-추가 및 기존의 animator를 currentAnimator로 변경하고 현재 작동해야 되는 animator를 currentAnimator에 세팅할 수 있도록 함  
-  
-BaseController.cs 수정  
-Move에서 바라보는 방향에 따라 사용할 Animator를 선택하여 AnimationHandler에 전달하도록 함  
-  
-그런데 이렇게 했는데도 애니메이션이 실행되지 않음  
-  
-2차 수정  
-  
-Player의 AnimationHandler 컴퍼넌트에 Animator가 할당되지 않아있어서 할당함  
-
-그래도 실행안됨  
-
-3차 수정  
-  
-원인 추측
-IsMove 부울값 문제인가?  
-
-디버그해봤는데 제대로 움직일때 해당 애니메이터에서 True뜸  
-  
-  
-애니메이터 확인해보는데 애니메이션 진행상황 보여주는 파란 게이지가 계속해서 초기화된다?  
-혹시 Animator의 IsMove값이 계속해서 선언되면서 계속 초기화되나?    
-  
-  
-해결 과정
-Rotate에서 계속해서 true값을 집어넣어줘서 계속 초기화되고있었음  
-방향이 바뀌었을때만 Sprite를 전환하도록 변경해줌
+추가 및 기존의 animator를 currentAnimator로 변경하고 현재 작동해야 되는 됨
